@@ -7,7 +7,7 @@ version = "${version}"
 
 apply from: 'file:gradle/groovydoc.gradle'
 
-ext.groovyVersion = System.getenv('GROOVY_VERSION')?: '2.4.3'
+ext.groovyVersion = System.getenv('GROOVY_VERSION')?: '2.5.2'
 
 println "Using Groovy ${groovyVersion}"
 println "Using Gradle ${GradleVersion.current().getVersion()}"
@@ -45,5 +45,5 @@ test {
 //http://www.gradle.org/docs/current/userguide/gradle_wrapper.html
 //generate gradlew with: gradle wrapper
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+    gradleVersion = '4.10.1'
 }
