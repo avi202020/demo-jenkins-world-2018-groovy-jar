@@ -44,6 +44,6 @@ test {
 
 //http://www.gradle.org/docs/current/userguide/gradle_wrapper.html
 //generate gradlew with: gradle wrapper
-task wrapper(type: Wrapper) {
+wrapper {
     gradleVersion = '4.10.1'
 }
