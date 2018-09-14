@@ -1,1 +1,4 @@
 language: java
+jenkins:
+  collect:
+    junit: build/test-results/**/*.xml
