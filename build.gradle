@@ -3,7 +3,7 @@ apply plugin: 'groovy'
 group = 'kata.seeds'
 jar.baseName = 'groovy-gradle-seed'
 archivesBaseName = 'groovy-gradle-seed'
-version = '0.1.0-SNAPSHOT'
+version = "${version}"
 
 apply from: 'file:gradle/groovydoc.gradle'
 
