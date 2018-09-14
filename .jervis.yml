@@ -1,6 +1,19 @@
 language: java
+env:
+  - GROOVY_VERSION=2.5.2
+  - GROOVY_VERSION=2.6.0-alpha-4
 script: ./gradlew clean check groovydoc assemble
 jenkins:
+  stash:
+    - name: artifacts
+      matrix_axis:
+        env: GROOVY_VERSION=2.5.2
+    - name: html
+      matrix_axis:
+        env: GROOVY_VERSION=2.5.2
+    - name: junit
+      matrix_axis:
+        env: GROOVY_VERSION=2.5.2
   collect:
     artifacts: build/libs/*.jar
     junit: build/test-results/**/*.xml
