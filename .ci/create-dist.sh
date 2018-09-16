@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -auxeEo pipefail
-type -P 
+rm -rf dist
 mkdir -p dist
 # move unstashed artifacts to dist
 mv build/libs/* ./dist/

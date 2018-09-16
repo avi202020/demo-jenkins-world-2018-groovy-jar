@@ -28,6 +28,23 @@ set -auxeEo pipefail
 
 type -P gawk
 
+# prepare git user (if applicable)
+if [ -z "$(git config --global --get user.name)" ]; then
+  git config --global user.name 'Jenkins Automation'
+  git config --global user.email 'no-reply@example.com'
+fi
+# set credentials
+if git config --get remote.origin.url | grep '^http'; then
+  git config --global url."https://${github_user}:${github_token}@github.com/".insteadOf "https://github.com/"
+fi
+# Wipe out local tags and fetch new ones.  This is necessary because it is
+# possible that a tag was deleted remotely so we want to make sure our local
+# tags are accurate.  Mainly because the Jenkins workspace persists  between
+# builds.
+git push . ':refs/tags/*'
+git fetch origin --tags
+
+# Ready to start the release process
 if tag_exists; then
   echo 'Tag already exists containing this commit.  Skipping release...'
   git tag --contains HEAD
@@ -37,14 +54,6 @@ fi
 tag="$(major_minor).$(next_patch)"
 sed -i.bak "s/^version=.*/version=${tag}/" gradle.properties
 git add gradle.properties
-# prepare git user (if applicable)
-if [ -z "$(git config --global --get user.name)" ]; then
-  git config --global user.name 'Jenkins Automation'
-  git config --global user.email 'no-reply@example.com'
-fi
 git commit -m "Release ${tag}"
 git tag -am "Release ${tag}" "${tag}"
-if git config --get remote.origin.url | grep '^http'; then
-  git config --global url."https://${github_user}:${github_token}@github.com/".insteadOf "https://github.com/"
-fi
 git push origin "refs/tags/${tag}:refs/tags/${tag}"

@@ -6,12 +6,21 @@ function cleanup_on() {
 }
 trap cleanup_on EXIT
 
+function die() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+function missing_var() {
+  die "$1 environment variable not set."
+}
+
 set -auxeEo pipefail
 # test for variables that should be set
-[ -n "${JERVIS_ORG:-}" ]
-[ -n "${JERVIS_PROJECT:-}" ]
-[ -n "${TAG_NAME:-}" ]
-[ -n "${GITHUB_TOKEN}" ]
+[ -n "${JERVIS_ORG:-}" ] || missing_var JERVIS_ORG
+[ -n "${JERVIS_PROJECT:-}" ] || missing_var JERVIS_PROJECT
+[ -n "${TAG_NAME:-}" ] || missing_var TAG_NAME
+[ -n "${GITHUB_TOKEN:-}" ] || missing_var GITHUB_TOKEN
 
 export TMP_DIR=$(mktemp -d)
 export PATH="${TMP_DIR}:${PATH}"
