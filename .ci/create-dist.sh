@@ -3,8 +3,8 @@
 set -auxeEo pipefail
 type -P 
 mkdir -p dist
-# move Jar to dist
-mv build/lib/* ./dist
+# move unstashed artifacts to dist
+mv build/libs/* ./dist/
 # archive the API documentation
 (
   cd build/docs/groovydoc/
