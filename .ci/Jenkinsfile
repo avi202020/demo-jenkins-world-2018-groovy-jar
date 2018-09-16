@@ -1,0 +1,31 @@
+/*
+ * Create a tag if this build is not a tag, not a pull request, and the current
+ * branch being built is the master branch.
+ *
+ * create-tag.sh is idempotent.  If the current master branch is already
+ * included in a Git tag (i.e. already release), then it will not create
+ * another Git tag.
+ */
+if(!isPRBuild() && !isTagBuild() && env.BRANCH_NAME == 'master') {
+    stage("Create a Tag") {
+        // install prerequisite packages
+        sh 'sudo apk add gawk'
+        withCredentials([usernamePassword(credentialsId: 'clone-https', passwordVariable: 'github_token', usernameVariable: 'github_user')]) {
+            sh './.ci/create-tag.sh'
+        }
+    }
+}
+
+/*
+ * This pipeline will only be executed if the current build is a Git tag.  This
+ * will actually perform the release as a completely disconnected step from
+ * pushing the tag to GitHub.
+ */
+if(isTagBuild()) {
+    stage("Create a Tag") {
+        unstash artifacts
+        unstash html
+        sh '.ci/create-dist.sh'
+        sh '.ci/upload-release.sh'
+    }
+}
