@@ -46,11 +46,9 @@ github-release release \
   --description - <<EOF
 # Release notes
 
-This change was automatically released by Jenkins.  See my [Jenkins World 2018
-demo][demo].
+This change was automatically released by Jenkins.  See my [Jenkins World 2018 demo][demo].
 
-See [git changelog][changelog] since the last release
-${TAG_NAME%.*}.${LAST_PATCH}.
+See [git changelog][changelog] since the last release ${TAG_NAME%.*}.${LAST_PATCH}.
 
 Published by [\`${JOB_NAME}\` build #${BUILD_NUMBER}][build].
 
