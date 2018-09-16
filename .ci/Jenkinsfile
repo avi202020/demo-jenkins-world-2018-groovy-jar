@@ -22,4 +22,10 @@ if(!isPRBuild() && !isTagBuild() && env.BRANCH_NAME == 'master') {
  * pushing the tag to GitHub.
  */
 if(isTagBuild()) {
+    stage("Create a Tag") {
+        unstash artifacts
+        unstash html
+        sh '.ci/create-dist.sh'
+        sh '.ci/upload-release.sh'
+    }
 }
