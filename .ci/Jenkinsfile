@@ -26,8 +26,9 @@ if(isTagBuild()) {
         unstash 'artifacts'
         unstash 'html'
         sh '.ci/create-dist.sh'
-        withCredentials([usernamePassword(credentialsId: 'clone-https', passwordVariable: 'GITHUB_TOKEN')]) {
-          sh '.ci/upload-release.sh'
+        withCredentials([usernamePassword(credentialsId: 'clone-https', passwordVariable: 'GITHUB_TOKEN', usernameVariable: 'NOT_USED')]) {
+            // upload-release only uses the GITHUB_TOKEN variable
+            sh '.ci/upload-release.sh'
         }
     }
 }
