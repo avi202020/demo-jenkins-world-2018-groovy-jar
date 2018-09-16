@@ -1,7 +1,6 @@
 #!/bin/bash
 # Created by Sam Gleske
-# Create an automated release if one doesn't exist yet.  This script will
-# simply create a tag.  Building and publishing tags is handled in a separate
+# Create an automated release if one doesn't exist yet.  This script will # simply create a tag.  Building and publishing tags is handled in a separate
 # workflow.
 
 #
@@ -41,7 +40,7 @@ fi
 # possible that a tag was deleted remotely so we want to make sure our local
 # tags are accurate.  Mainly because the Jenkins workspace persists  between
 # builds.
-git push . ':refs/tags/*'
+git tag | xargs -n1 -I{} git push . ':refs/tags/{}'
 git fetch origin --tags
 
 # Ready to start the release process
